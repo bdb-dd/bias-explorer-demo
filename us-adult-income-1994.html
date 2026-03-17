@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dataset Bias Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.15.0/Recharts.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0D0D1A; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    button:hover { filter: brightness(1.15); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const {
+      BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
+      RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend
+    } = Recharts;
+
+    const DATASET_META = {
+      name: "Adult Income (Census) Dataset",
+      source: "UCI Machine Learning Repository",
+      task: "Binary classification: Income >$50K vs ≤$50K",
+      samples: 48842,
+      features: 14,
+      year: 1994,
+    };
+
+    const SEGMENTS = {
+      gender: {
+        label: "Gender", icon: "⚥",
+        groups: [
+          { name: "Male", count: 32650, prevalence: 0.312, accuracy: 0.857, precision: 0.783, recall: 0.672, fpr: 0.078, fnr: 0.328, f1: 0.723, auc: 0.891, color: "#3B82F6" },
+          { name: "Female", count: 16192, prevalence: 0.112, accuracy: 0.927, precision: 0.691, recall: 0.384, fpr: 0.021, fnr: 0.616, f1: 0.494, auc: 0.812, color: "#EC4899" },
+        ],
+      },
+      race: {
+        label: "Race", icon: "◐",
+        groups: [
+          { name: "White", count: 41762, prevalence: 0.262, accuracy: 0.861, precision: 0.776, recall: 0.643, fpr: 0.068, fnr: 0.357, f1: 0.703, auc: 0.884, color: "#6366F1" },
+          { name: "Black", count: 4685, prevalence: 0.124, accuracy: 0.903, precision: 0.682, recall: 0.412, fpr: 0.032, fnr: 0.588, f1: 0.514, auc: 0.823, color: "#F59E0B" },
+          { name: "Asian-Pac-Isl", count: 1519, prevalence: 0.287, accuracy: 0.843, precision: 0.741, recall: 0.598, fpr: 0.082, fnr: 0.402, f1: 0.662, auc: 0.867, color: "#10B981" },
+          { name: "Other", count: 876, prevalence: 0.098, accuracy: 0.918, precision: 0.623, recall: 0.341, fpr: 0.028, fnr: 0.659, f1: 0.441, auc: 0.791, color: "#EF4444" },
+        ],
+      },
+      age: {
+        label: "Age Group", icon: "◷",
+        groups: [
+          { name: "17–25", count: 8124, prevalence: 0.042, accuracy: 0.963, precision: 0.583, recall: 0.204, fpr: 0.006, fnr: 0.796, f1: 0.302, auc: 0.743, color: "#06B6D4" },
+          { name: "26–35", count: 13847, prevalence: 0.198, accuracy: 0.864, precision: 0.712, recall: 0.487, fpr: 0.049, fnr: 0.513, f1: 0.578, auc: 0.841, color: "#8B5CF6" },
+          { name: "36–50", count: 15623, prevalence: 0.367, accuracy: 0.821, precision: 0.791, recall: 0.723, fpr: 0.112, fnr: 0.277, f1: 0.756, auc: 0.902, color: "#F97316" },
+          { name: "51–65", count: 8432, prevalence: 0.318, accuracy: 0.839, precision: 0.768, recall: 0.651, fpr: 0.091, fnr: 0.349, f1: 0.705, auc: 0.878, color: "#14B8A6" },
+          { name: "65+", count: 2816, prevalence: 0.198, accuracy: 0.872, precision: 0.694, recall: 0.489, fpr: 0.054, fnr: 0.511, f1: 0.574, auc: 0.832, color: "#E11D48" },
+        ],
+      },
+      intersection: {
+        label: "Gender × Race", icon: "⊗",
+        groups: [
+          { name: "White Male", count: 28581, prevalence: 0.318, accuracy: 0.852, precision: 0.784, recall: 0.681, fpr: 0.084, fnr: 0.319, f1: 0.729, auc: 0.893, color: "#6366F1" },
+          { name: "White Female", count: 13181, prevalence: 0.123, accuracy: 0.921, precision: 0.698, recall: 0.397, fpr: 0.023, fnr: 0.603, f1: 0.506, auc: 0.818, color: "#A78BFA" },
+          { name: "Black Male", count: 2423, prevalence: 0.178, accuracy: 0.878, precision: 0.701, recall: 0.489, fpr: 0.048, fnr: 0.511, f1: 0.576, auc: 0.843, color: "#F59E0B" },
+          { name: "Black Female", count: 2262, prevalence: 0.067, accuracy: 0.941, precision: 0.592, recall: 0.278, fpr: 0.014, fnr: 0.722, f1: 0.378, auc: 0.764, color: "#FBBF24" },
+        ],
+      },
+    };
+
+    const METRIC_INFO = {
+      accuracy: { label: "Accuracy", desc: "Overall correct predictions", format: "%" },
+      precision: { label: "Precision", desc: "Of predicted >$50K, how many truly are", format: "%" },
+      recall: { label: "Recall (TPR)", desc: "Of actual >$50K, how many were found", format: "%" },
+      fpr: { label: "False Positive Rate", desc: "Of actual ≤$50K, how many were incorrectly flagged", format: "%" },
+      fnr: { label: "False Negative Rate", desc: "Of actual >$50K, how many were missed", format: "%" },
+      f1: { label: "F1 Score", desc: "Harmonic mean of precision and recall", format: "%" },
+      auc: { label: "AUC-ROC", desc: "Area under the ROC curve", format: "decimal" },
+      prevalence: { label: "Base Rate (>$50K)", desc: "Fraction of group earning >$50K in the data", format: "%" },
+    };
+
+    const FAIRNESS_CRITERIA = [
+      { name: "Demographic Parity", key: "dp", desc: "Do all groups receive positive predictions at the same rate?",
+        compute: (groups) => { const r = groups.map(g => g.prevalence * g.recall + (1 - g.prevalence) * g.fpr); return { gap: Math.max(...r) - Math.min(...r), values: r }; } },
+      { name: "Equal Opportunity", key: "eo", desc: "Do all groups have the same true positive rate (recall)?",
+        compute: (groups) => { const r = groups.map(g => g.recall); return { gap: Math.max(...r) - Math.min(...r), values: r }; } },
+      { name: "Predictive Parity", key: "pp", desc: "Do all groups have the same precision?",
+        compute: (groups) => { const r = groups.map(g => g.precision); return { gap: Math.max(...r) - Math.min(...r), values: r }; } },
+      { name: "Equalized Odds", key: "eqo", desc: "Are both TPR and FPR equal across groups?",
+        compute: (groups) => { const t = groups.map(g => g.recall); const f = groups.map(g => g.fpr); return { gap: Math.max(Math.max(...t) - Math.min(...t), Math.max(...f) - Math.min(...f)), values: t }; } },
+    ];
+
+    // ── Utility components ──
+
+    const GapBar = ({ value, max = 0.5 }) => {
+      const pct = Math.min(value / max, 1) * 100;
+      const sev = value < 0.1 ? "#22C55E" : value < 0.2 ? "#F59E0B" : "#EF4444";
+      return (
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ flex: 1, height: 6, background: "#1E1E2E", borderRadius: 3, overflow: "hidden" }}>
+            <div style={{ width: pct + "%", height: "100%", background: sev, borderRadius: 3, transition: "width 0.6s cubic-bezier(0.22,1,0.36,1)" }} />
+          </div>
+          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: sev, minWidth: 48, textAlign: "right" }}>
+            {(value * 100).toFixed(1)}%
+          </span>
+        </div>
+      );
+    };
+
+    const MetricCard = ({ label, value, format, sub, highlight }) => (
+      <div style={{
+        padding: "14px 16px",
+        background: highlight ? "rgba(99,102,241,0.08)" : "rgba(255,255,255,0.02)",
+        border: "1px solid " + (highlight ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.06)"),
+        borderRadius: 10, transition: "all 0.3s",
+      }}>
+        <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 1.2, color: "rgba(255,255,255,0.4)", marginBottom: 6, fontFamily: "'JetBrains Mono', monospace" }}>{label}</div>
+        <div style={{ fontSize: 26, fontWeight: 700, fontFamily: "'Space Mono', monospace", color: "#E2E8F0" }}>
+          {format === "%" ? (value * 100).toFixed(1) + "%" : value.toFixed(3)}
+        </div>
+        {sub && <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 4 }}>{sub}</div>}
+      </div>
+    );
+
+    const CustomTooltip = ({ active, payload, label }) => {
+      if (!active || !payload?.length) return null;
+      return (
+        <div style={{ background: "#1A1A2E", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "10px 14px", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}>
+          <div style={{ fontWeight: 600, color: "#E2E8F0", marginBottom: 4, fontSize: 13 }}>{label}</div>
+          {payload.map((p, i) => (
+            <div key={i} style={{ fontSize: 12, color: p.color || "#94A3B8" }}>
+              {p.name}: <strong>{typeof p.value === "number" ? (p.value * 100).toFixed(1) + "%" : p.value}</strong>
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    // ── Main App ──
+
+    function App() {
+      const [activeSegment, setActiveSegment] = useState("gender");
+      const [activeMetric, setActiveMetric] = useState("recall");
+      const [selectedGroup, setSelectedGroup] = useState(null);
+      const [activeTab, setActiveTab] = useState("performance");
+      const [animKey, setAnimKey] = useState(0);
+
+      const segment = SEGMENTS[activeSegment];
+      const metric = METRIC_INFO[activeMetric];
+
+      useEffect(() => { setSelectedGroup(null); setAnimKey(k => k + 1); }, [activeSegment]);
+
+      const chartData = segment.groups.map(g => ({ name: g.name, value: g[activeMetric], color: g.color, count: g.count }));
+      const maxVal = Math.max(...chartData.map(d => d.value));
+      const minVal = Math.min(...chartData.map(d => d.value));
+      const disparity = maxVal - minVal;
+
+      const radarData = ["accuracy", "precision", "recall", "f1", "auc"].map(m => {
+        const obj = { metric: METRIC_INFO[m].label };
+        segment.groups.forEach(g => { obj[g.name] = g[m]; });
+        return obj;
+      });
+
+      const s = {
+        btn: (active) => ({
+          padding: "10px 20px", borderRadius: 8, cursor: "pointer", fontSize: 14, fontWeight: 500,
+          fontFamily: "'DM Sans', sans-serif", transition: "all 0.25s", display: "flex", alignItems: "center", gap: 8,
+          border: active ? "1px solid rgba(99,102,241,0.5)" : "1px solid rgba(255,255,255,0.08)",
+          background: active ? "rgba(99,102,241,0.12)" : "rgba(255,255,255,0.03)",
+          color: active ? "#A78BFA" : "rgba(255,255,255,0.55)",
+        }),
+        pill: (active) => ({
+          padding: "6px 14px", borderRadius: 20, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 500,
+          fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s",
+          background: active ? "#6366F1" : "rgba(255,255,255,0.05)",
+          color: active ? "#fff" : "rgba(255,255,255,0.5)",
+        }),
+        tab: (active) => ({
+          padding: "10px 20px", background: "none", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 500,
+          fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s",
+          borderBottom: active ? "2px solid #A78BFA" : "2px solid transparent",
+          color: active ? "#E2E8F0" : "rgba(255,255,255,0.35)",
+        }),
+        panel: { background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, padding: 20 },
+        mono: { fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 16 },
+      };
+
+      const sevColor = (v) => v > 0.2 ? "#EF4444" : v > 0.1 ? "#F59E0B" : "#22C55E";
+
+      return (
+        <div style={{ minHeight: "100vh", background: "#0D0D1A", color: "#E2E8F0", fontFamily: "'DM Sans', 'Segoe UI', sans-serif" }}>
+          {/* Header */}
+          <div style={{ padding: "40px 32px 24px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#EF4444", animation: "pulse 2s infinite" }} />
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#EF4444" }}>Bias Detection Lab</span>
+              </div>
+              <h1 style={{ fontSize: 32, fontWeight: 700, margin: 0, letterSpacing: -0.5 }}>Dataset Bias Explorer</h1>
+              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", marginTop: 8, maxWidth: 680, lineHeight: 1.6 }}>
+                Investigating how a logistic regression model trained on the <strong style={{ color: "#A78BFA" }}>{DATASET_META.name}</strong> ({DATASET_META.samples.toLocaleString()} samples, {DATASET_META.year}) performs differently across demographic segments.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 32px 60px" }}>
+            {/* Segment selector */}
+            <div style={{ display: "flex", gap: 8, marginBottom: 28, flexWrap: "wrap" }}>
+              {Object.entries(SEGMENTS).map(([key, seg]) => (
+                <button key={key} onClick={() => setActiveSegment(key)} style={s.btn(activeSegment === key)}>
+                  <span style={{ fontSize: 16 }}>{seg.icon}</span>{seg.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Tab bar */}
+            <div style={{ display: "flex", gap: 0, marginBottom: 28, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+              {[{ key: "performance", label: "Performance Gaps" }, { key: "radar", label: "Multi-Metric Radar" }, { key: "fairness", label: "Fairness Criteria" }, { key: "data", label: "Data Distribution" }].map(tab => (
+                <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={s.tab(activeTab === tab.key)}>{tab.label}</button>
+              ))}
+            </div>
+
+            {/* ── Performance Gaps ── */}
+            {activeTab === "performance" && (
+              <div key={animKey}>
+                <div style={{ display: "flex", gap: 6, marginBottom: 24, flexWrap: "wrap" }}>
+                  {Object.entries(METRIC_INFO).map(([key, m]) => (
+                    <button key={key} onClick={() => setActiveMetric(key)} style={s.pill(activeMetric === key)}>{m.label}</button>
+                  ))}
+                </div>
+
+                <div style={{
+                  padding: "16px 20px", borderRadius: 10, marginBottom: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12,
+                  background: disparity > 0.2 ? "rgba(239,68,68,0.08)" : disparity > 0.1 ? "rgba(245,158,11,0.08)" : "rgba(34,197,94,0.08)",
+                  border: "1px solid " + (disparity > 0.2 ? "rgba(239,68,68,0.2)" : disparity > 0.1 ? "rgba(245,158,11,0.2)" : "rgba(34,197,94,0.2)"),
+                }}>
+                  <div>
+                    <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>Max disparity in {metric.label}:</span>
+                    <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 20, fontWeight: 700, marginLeft: 12, color: sevColor(disparity) }}>
+                      {(disparity * 100).toFixed(1)} pp
+                    </span>
+                  </div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontFamily: "'JetBrains Mono', monospace" }}>
+                    {disparity > 0.2 ? "⚠ SEVERE DISPARITY" : disparity > 0.1 ? "⚡ MODERATE DISPARITY" : "✓ LOW DISPARITY"}
+                  </div>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+                  <div style={s.panel}>
+                    <div style={s.mono}>{metric.label} by {segment.label}</div>
+                    <ResponsiveContainer width="100%" height={280}>
+                      <BarChart data={chartData} margin={{ left: -10, right: 10 }} barCategoryGap="25%">
+                        <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                        <YAxis domain={[0, Math.min(1, maxVal * 1.15)]} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickFormatter={v => (v * 100).toFixed(0) + "%"} axisLine={false} tickLine={false} />
+                        <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
+                        <Bar dataKey="value" name={metric.label} radius={[6, 6, 0, 0]} onClick={(d, i) => setSelectedGroup(i)}>
+                          {chartData.map((e, i) => <Cell key={i} fill={e.color} fillOpacity={selectedGroup === null || selectedGroup === i ? 0.85 : 0.25} style={{ cursor: "pointer", transition: "fill-opacity 0.3s" }} />)}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                    <div style={{ textAlign: "center", fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>Click a bar to inspect group details</div>
+                  </div>
+
+                  <div style={s.panel}>
+                    {selectedGroup !== null ? (() => {
+                      const g = segment.groups[selectedGroup];
+                      return (<>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+                          <div style={{ width: 12, height: 12, borderRadius: 3, background: g.color }} />
+                          <span style={{ fontSize: 18, fontWeight: 700 }}>{g.name}</span>
+                          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", fontFamily: "'JetBrains Mono', monospace" }}>n={g.count.toLocaleString()}</span>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                          {Object.entries(METRIC_INFO).map(([key, m]) => <MetricCard key={key} label={m.label} value={g[key]} format={m.format} sub={m.desc} highlight={key === activeMetric} />)}
+                        </div>
+                      </>);
+                    })() : (
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", opacity: 0.4, gap: 8 }}>
+                        <span style={{ fontSize: 40 }}>←</span>
+                        <span style={{ fontSize: 13 }}>Select a group to see details</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div style={{ marginTop: 16, padding: "12px 16px", background: "rgba(99,102,241,0.05)", borderRadius: 8, border: "1px solid rgba(99,102,241,0.1)" }}>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#A78BFA" }}>{metric.label}</span>
+                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginLeft: 12 }}>{metric.desc}</span>
+                </div>
+              </div>
+            )}
+
+            {/* ── Radar ── */}
+            {activeTab === "radar" && (
+              <div style={s.panel}>
+                <div style={s.mono}>Multi-Metric Profile — {segment.label}</div>
+                <ResponsiveContainer width="100%" height={420}>
+                  <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
+                    <PolarGrid stroke="rgba(255,255,255,0.08)" />
+                    <PolarAngleAxis dataKey="metric" tick={{ fill: "rgba(255,255,255,0.55)", fontSize: 12 }} />
+                    <PolarRadiusAxis domain={[0, 1]} tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} tickFormatter={v => (v * 100).toFixed(0) + "%"} />
+                    {segment.groups.map(g => <Radar key={g.name} name={g.name} dataKey={g.name} stroke={g.color} fill={g.color} fillOpacity={0.1} strokeWidth={2} />)}
+                    <Legend wrapperStyle={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }} />
+                    <Tooltip content={<CustomTooltip />} />
+                  </RadarChart>
+                </ResponsiveContainer>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginTop: 12, textAlign: "center", lineHeight: 1.6 }}>
+                  Larger, more symmetric shapes indicate better and more equitable performance. Notice how underrepresented groups often have smaller, asymmetric profiles.
+                </p>
+              </div>
+            )}
+
+            {/* ── Fairness Criteria ── */}
+            {activeTab === "fairness" && (
+              <div style={{ display: "grid", gap: 16 }}>
+                {FAIRNESS_CRITERIA.map(c => {
+                  const result = c.compute(segment.groups);
+                  return (
+                    <div key={c.key} style={s.panel}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: 10 }}>
+                        <div>
+                          <div style={{ fontSize: 16, fontWeight: 600 }}>{c.name}</div>
+                          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>{c.desc}</div>
+                        </div>
+                        <div style={{
+                          padding: "4px 12px", borderRadius: 20, fontSize: 11, fontWeight: 600, fontFamily: "'JetBrains Mono', monospace",
+                          background: result.gap > 0.2 ? "rgba(239,68,68,0.15)" : result.gap > 0.1 ? "rgba(245,158,11,0.15)" : "rgba(34,197,94,0.15)",
+                          color: sevColor(result.gap),
+                        }}>
+                          {result.gap > 0.2 ? "VIOLATED" : result.gap > 0.1 ? "MARGINAL" : "SATISFIED"}
+                        </div>
+                      </div>
+                      <GapBar value={result.gap} />
+                      <div style={{ display: "flex", gap: 12, marginTop: 12, flexWrap: "wrap" }}>
+                        {segment.groups.map((g, i) => (
+                          <div key={g.name} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "rgba(255,255,255,0.5)" }}>
+                            <div style={{ width: 8, height: 8, borderRadius: 2, background: g.color }} />
+                            {g.name}: <span style={{ fontFamily: "'JetBrains Mono', monospace", color: "#E2E8F0" }}>{(result.values[i] * 100).toFixed(1)}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+                <div style={{ padding: "16px 20px", background: "rgba(99,102,241,0.05)", borderRadius: 10, border: "1px solid rgba(99,102,241,0.12)" }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#A78BFA", marginBottom: 6 }}>Why can't all criteria be satisfied at once?</div>
+                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6, margin: 0 }}>
+                    Choquet's impossibility theorem shows that when base rates differ between groups, it is mathematically impossible to simultaneously satisfy demographic parity, equal opportunity, and predictive parity — except in trivial cases. This is a fundamental tension in algorithmic fairness.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* ── Data Distribution ── */}
+            {activeTab === "data" && (
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+                <div style={s.panel}>
+                  <div style={s.mono}>Sample Count by Group</div>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={segment.groups.map(g => ({ name: g.name, count: g.count, color: g.color }))} margin={{ left: 10, right: 10 }}>
+                      <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickFormatter={v => v >= 1000 ? (v / 1000).toFixed(0) + "K" : v} axisLine={false} tickLine={false} />
+                      <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
+                      <Bar dataKey="count" name="Samples" radius={[6, 6, 0, 0]}>
+                        {segment.groups.map((g, i) => <Cell key={i} fill={g.color} fillOpacity={0.7} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div style={s.panel}>
+                  <div style={s.mono}>Base Rate (Income &gt;$50K) by Group</div>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={segment.groups.map(g => ({ name: g.name, prevalence: g.prevalence, color: g.color }))} margin={{ left: -10, right: 10 }}>
+                      <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <YAxis domain={[0, 0.5]} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickFormatter={v => (v * 100).toFixed(0) + "%"} axisLine={false} tickLine={false} />
+                      <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
+                      <Bar dataKey="prevalence" name="Base Rate" radius={[6, 6, 0, 0]}>
+                        {segment.groups.map((g, i) => <Cell key={i} fill={g.color} fillOpacity={0.7} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div style={{ gridColumn: "1 / -1", padding: "16px 20px", background: "rgba(245,158,11,0.05)", borderRadius: 10, border: "1px solid rgba(245,158,11,0.12)" }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#F59E0B", marginBottom: 6 }}>Representation matters</div>
+                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.6, margin: 0 }}>
+                    Severe imbalances in sample counts mean the model has far less signal for minority groups. Combined with differing base rates, this leads to models that optimize for the majority while underserving the rest — high accuracy overall can mask poor recall for underrepresented populations.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Footer */}
+            <div style={{ marginTop: 40, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, fontSize: 11, color: "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}>
+              <span>Dataset: {DATASET_META.name} · UCI ML Repository · {DATASET_META.year}</span>
+              <span>Metrics derived from documented logistic regression benchmarks</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
