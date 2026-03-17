@@ -81,58 +81,58 @@
       gender: {
         label: "Gender", icon: "⚥",
         groups: [
-          { name: "Men",   n: 1420000, baseRate: 0.584, accuracy: 0.812, precision: 0.823, recall: 0.801, fpr: 0.178, fnr: 0.199, f1: 0.812, auc: 0.876, color: C.men },
-          { name: "Women", n: 1180000, baseRate: 0.418, accuracy: 0.791, precision: 0.736, recall: 0.688, fpr: 0.134, fnr: 0.312, f1: 0.711, auc: 0.831, color: C.women },
+          { name: "Menn",   n: 1420000, baseRate: 0.584, accuracy: 0.812, precision: 0.823, recall: 0.801, fpr: 0.178, fnr: 0.199, f1: 0.812, auc: 0.876, color: C.men },
+          { name: "Kvinner", n: 1180000, baseRate: 0.418, accuracy: 0.791, precision: 0.736, recall: 0.688, fpr: 0.134, fnr: 0.312, f1: 0.711, auc: 0.831, color: C.women },
         ],
       },
       age: {
-        label: "Gender × Age", icon: "◷",
+        label: "Gender × age", icon: "◷",
         groups: [
-          { name: "Men <40",    n: 580000,  baseRate: 0.423, accuracy: 0.793, precision: 0.771, recall: 0.724, fpr: 0.146, fnr: 0.276, f1: 0.747, auc: 0.852, color: "#1B4965" },
-          { name: "Women <40",  n: 510000,  baseRate: 0.312, accuracy: 0.784, precision: 0.698, recall: 0.621, fpr: 0.112, fnr: 0.379, f1: 0.658, auc: 0.813, color: "#E07A5F" },
-          { name: "Men 40+",    n: 840000,  baseRate: 0.714, accuracy: 0.831, precision: 0.856, recall: 0.847, fpr: 0.218, fnr: 0.153, f1: 0.851, auc: 0.893, color: "#264653" },
-          { name: "Women 40+",  n: 670000,  baseRate: 0.498, accuracy: 0.772, precision: 0.753, recall: 0.691, fpr: 0.148, fnr: 0.309, f1: 0.721, auc: 0.834, color: "#BA2D0B" },
+          { name: "Menn <40",    n: 580000,  baseRate: 0.423, accuracy: 0.793, precision: 0.771, recall: 0.724, fpr: 0.146, fnr: 0.276, f1: 0.747, auc: 0.852, color: "#1B4965" },
+          { name: "Kvinner <40",  n: 510000,  baseRate: 0.312, accuracy: 0.784, precision: 0.698, recall: 0.621, fpr: 0.112, fnr: 0.379, f1: 0.658, auc: 0.813, color: "#E07A5F" },
+          { name: "Menn 40+",    n: 840000,  baseRate: 0.714, accuracy: 0.831, precision: 0.856, recall: 0.847, fpr: 0.218, fnr: 0.153, f1: 0.851, auc: 0.893, color: "#264653" },
+          { name: "Kvinner 40+",  n: 670000,  baseRate: 0.498, accuracy: 0.772, precision: 0.753, recall: 0.691, fpr: 0.148, fnr: 0.309, f1: 0.721, auc: 0.834, color: "#BA2D0B" },
         ],
       },
       industry: {
-        label: "Industry Cluster", icon: "◆",
+        label: "Industry cluster", icon: "◆",
         groups: [
           { name: "Finance & IT",     n: 310000,  baseRate: 0.742, accuracy: 0.858, precision: 0.871, recall: 0.862, fpr: 0.214, fnr: 0.138, f1: 0.866, auc: 0.912, color: "#264653" },
-          { name: "Healthcare & Edu", n: 620000,  baseRate: 0.394, accuracy: 0.779, precision: 0.718, recall: 0.652, fpr: 0.121, fnr: 0.348, f1: 0.683, auc: 0.821, color: "#E76F51" },
-          { name: "Mfg & Constr",     n: 420000,  baseRate: 0.512, accuracy: 0.798, precision: 0.792, recall: 0.753, fpr: 0.161, fnr: 0.247, f1: 0.772, auc: 0.848, color: "#2A9D8F" },
-          { name: "Public Sector",    n: 480000,  baseRate: 0.367, accuracy: 0.803, precision: 0.724, recall: 0.618, fpr: 0.098, fnr: 0.382, f1: 0.667, auc: 0.809, color: "#F4A261" },
+          { name: "Helse & utdanning", n: 620000,  baseRate: 0.394, accuracy: 0.779, precision: 0.718, recall: 0.652, fpr: 0.121, fnr: 0.348, f1: 0.683, auc: 0.821, color: "#E76F51" },
+          { name: "Industri & bygg",     n: 420000,  baseRate: 0.512, accuracy: 0.798, precision: 0.792, recall: 0.753, fpr: 0.161, fnr: 0.247, f1: 0.772, auc: 0.848, color: "#2A9D8F" },
+          { name: "Offentlig sektor",    n: 480000,  baseRate: 0.367, accuracy: 0.803, precision: 0.724, recall: 0.618, fpr: 0.098, fnr: 0.382, f1: 0.667, auc: 0.809, color: "#F4A261" },
         ],
       },
       intersection: {
-        label: "Gender × Industry", icon: "⊗",
+        label: "Gender × industry", icon: "⊗",
         groups: [
-          { name: "Men · Fin/IT",     n: 198000, baseRate: 0.812, accuracy: 0.872, precision: 0.889, recall: 0.884, fpr: 0.241, fnr: 0.116, f1: 0.886, auc: 0.924, color: "#1B4965" },
-          { name: "Women · Fin/IT",   n: 112000, baseRate: 0.618, accuracy: 0.823, precision: 0.821, recall: 0.786, fpr: 0.178, fnr: 0.214, f1: 0.803, auc: 0.878, color: "#E07A5F" },
-          { name: "Men · Health/Edu", n: 168000, baseRate: 0.521, accuracy: 0.811, precision: 0.798, recall: 0.762, fpr: 0.158, fnr: 0.238, f1: 0.780, auc: 0.856, color: "#264653" },
-          { name: "Women · Hlth/Edu", n: 452000, baseRate: 0.347, accuracy: 0.768, precision: 0.681, recall: 0.592, fpr: 0.104, fnr: 0.408, f1: 0.634, auc: 0.793, color: "#BA2D0B" },
+          { name: "Menn · Fin/IT",     n: 198000, baseRate: 0.812, accuracy: 0.872, precision: 0.889, recall: 0.884, fpr: 0.241, fnr: 0.116, f1: 0.886, auc: 0.924, color: "#1B4965" },
+          { name: "Kvinner · Fin/IT",   n: 112000, baseRate: 0.618, accuracy: 0.823, precision: 0.821, recall: 0.786, fpr: 0.178, fnr: 0.214, f1: 0.803, auc: 0.878, color: "#E07A5F" },
+          { name: "Menn · Helse/Utd.", n: 168000, baseRate: 0.521, accuracy: 0.811, precision: 0.798, recall: 0.762, fpr: 0.158, fnr: 0.238, f1: 0.780, auc: 0.856, color: "#264653" },
+          { name: "Kvinner · Helse/Utd.", n: 452000, baseRate: 0.347, accuracy: 0.768, precision: 0.681, recall: 0.592, fpr: 0.104, fnr: 0.408, f1: 0.634, auc: 0.793, color: "#BA2D0B" },
         ],
       },
     };
 
     const METRIC_INFO = {
-      accuracy:  { label: "Accuracy",   desc: "Overall correct predictions", fmt: "%" },
-      precision: { label: "Precision",  desc: "Of predicted above-median, how many truly are", fmt: "%" },
-      recall:    { label: "Recall",     desc: "Of actual above-median earners, how many were identified", fmt: "%" },
-      fpr:       { label: "FPR",        desc: "Of actual below-median, how many wrongly flagged as high", fmt: "%" },
-      fnr:       { label: "FNR",        desc: "Of actual above-median, how many missed", fmt: "%" },
-      f1:        { label: "F1 Score",   desc: "Harmonic mean of precision and recall", fmt: "%" },
-      auc:       { label: "AUC-ROC",    desc: "Discrimination ability of the model", fmt: "dec" },
-      baseRate:  { label: "Base Rate",  desc: "Fraction of group earning above median", fmt: "%" },
+      accuracy:  { label: "Accuracy",   desc: "Proportion of correct predictions overall", fmt: "%" },
+      precision: { label: "Precision",  desc: "Of those predicted above the median, how many actually are", fmt: "%" },
+      recall:    { label: "Recall",     desc: "Of those who actually earn above the median, how many were identified", fmt: "%" },
+      fpr:       { label: "FPR",        desc: "Of those actually below the median, how many were incorrectly flagged as high", fmt: "%" },
+      fnr:       { label: "FNR",        desc: "Of those who actually earn above the median, how many were missed", fmt: "%" },
+      f1:        { label: "F1 score",   desc: "Harmonic mean of precision and recall", fmt: "%" },
+      auc:       { label: "AUC-ROC",    desc: "Model's ability to distinguish between the classes", fmt: "dec" },
+      baseRate:  { label: "Base rate",  desc: "Proportion in the group that earns above the median", fmt: "%" },
     };
 
     const FAIRNESS = [
-      { name: "Demographic Parity", desc: "All groups receive positive predictions at equal rates",
+      { name: "Demographic parity", desc: "All groups receive positive predictions at equal rates",
         compute: gs => { const r = gs.map(g => g.baseRate * g.recall + (1 - g.baseRate) * g.fpr); return { gap: Math.max(...r) - Math.min(...r), vals: r }; } },
-      { name: "Equal Opportunity", desc: "All groups have equal true positive rates (recall)",
+      { name: "Equal opportunity", desc: "All groups have equal true positive rate (recall)",
         compute: gs => { const r = gs.map(g => g.recall); return { gap: Math.max(...r) - Math.min(...r), vals: r }; } },
-      { name: "Predictive Parity", desc: "All groups have equal precision",
+      { name: "Predictive parity", desc: "All groups have equal precision",
         compute: gs => { const r = gs.map(g => g.precision); return { gap: Math.max(...r) - Math.min(...r), vals: r }; } },
-      { name: "Equalized Odds", desc: "Both TPR and FPR are equal across groups",
+      { name: "Equalized odds", desc: "Both TPR and FPR are equal across groups",
         compute: gs => { const t = gs.map(g => g.recall); const f = gs.map(g => g.fpr); return { gap: Math.max(Math.max(...t) - Math.min(...t), Math.max(...f) - Math.min(...f)), vals: t }; } },
     ];
 
@@ -211,10 +211,10 @@
     // ═══════════════════════════════════════════════════
     const PipelineNav = ({ step, setStep }) => {
       const steps = [
-        { key: 0, num: "①", label: "Data Distributions", color: C.pipe1 },
-        { key: 1, num: "②", label: "Model Performance", color: C.pipe2 },
-        { key: 2, num: "③", label: "Fairness Audit", color: C.pipe3 },
-        { key: 3, num: "④", label: "Impact Analysis", color: C.pipe4 },
+        { key: 0, num: "①", label: "Data distributions", color: C.pipe1 },
+        { key: 1, num: "②", label: "Model performance", color: C.pipe2 },
+        { key: 2, num: "③", label: "Fairness analysis", color: C.pipe3 },
+        { key: 3, num: "④", label: "Impact analysis", color: C.pipe4 },
       ];
       return (
         <div style={{ display: "flex", gap: 0, marginBottom: 32, position: "relative" }}>
@@ -286,14 +286,14 @@
                 <div style={{ width: 28, height: 4, background: C.women, borderRadius: 2 }} />
                 <div style={{ width: 28, height: 4, background: C.men, borderRadius: 2 }} />
                 <span style={{ fontFamily: "'IBM Plex Mono'", fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: C.light, marginLeft: 4 }}>
-                  SSB Data · Q3 2025 · Bias Pipeline
+                  SSB data · Q3 2025 · Bias pipeline
                 </span>
               </div>
               <h1 style={{ fontSize: 38, fontWeight: 800, fontFamily: "'Fraunces', serif", letterSpacing: -1, lineHeight: 1.1, maxWidth: 650 }}>
-                From Data Disparity to Model Discrimination
+                From data skew to model discrimination
               </h1>
               <p style={{ fontSize: 15, color: C.light, marginTop: 12, maxWidth: 640, lineHeight: 1.7, fontWeight: 300 }}>
-                Real Norwegian wage data from SSB reveals distributional disparities. When we train a classifier on this data, those disparities become algorithmic bias — affecting who gets flagged as a high earner and who gets missed.
+                Real Norwegian wage data from SSB reveals distributional skews. When we train a classifier on this data, the skews become algorithmic bias — affecting who gets flagged as high-earning and who gets overlooked.
               </p>
             </div>
           </header>
@@ -306,40 +306,40 @@
             {step === 0 && (
               <div style={{ animation: "fadeUp 0.4s ease" }}>
                 <div style={{ marginBottom: 24 }}>
-                  <h2 style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Fraunces', serif" }}>① The Training Data</h2>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Fraunces', serif" }}>① The training data</h2>
                   <p style={{ fontSize: 13, color: C.light, marginTop: 6, lineHeight: 1.6, maxWidth: 640 }}>
-                    Real SSB wage data for 2.6M Norwegian employees. The task: predict whether someone earns above the national median (53 970 kr/month). Before any model is trained, the data already contains systematic disparities.
+                    Real SSB wage data for 2.6 million Norwegian workers. The task is to predict whether someone earns above the national median (53,970 kr/mo.). Before any model is trained, the data already contains systematic differences.
                   </p>
                 </div>
 
                 <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 28 }}>
-                  <StatCard label="National Median" value="53 970 kr" sub="The classification threshold" />
-                  <StatCard label="Men above median" value="58.4%" sub="Overrepresented in positive class" accent={C.men} />
-                  <StatCard label="Women above median" value="41.8%" sub="Underrepresented in positive class" accent={C.women} />
-                  <StatCard label="Base Rate Gap" value="16.6 pp" sub="Before any model is involved" accent={C.neg} />
+                  <StatCard label="National median" value="53 970 kr" sub="The classification threshold" />
+                  <StatCard label="Men above median" value="58.4%" sub="Overrepresented in the positive class" accent={C.men} />
+                  <StatCard label="Women above median" value="41.8%" sub="Underrepresented in the positive class" accent={C.women} />
+                  <StatCard label="Base rate gap" value="16.6 pp" sub="Before any model is involved" accent={C.neg} />
                 </div>
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
                   <Panel>
-                    <PanelTitle>Wage Distribution by Gender & Age</PanelTitle>
+                    <PanelTitle>Wage distribution by gender and age</PanelTitle>
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={SSB_AGE.map(d => ({ ...d, group: d.group }))} barCategoryGap="18%">
                         <CartesianGrid strokeDasharray="3 3" stroke={C.border} vertical={false} />
                         <XAxis dataKey="group" tick={{ fill: C.light, fontSize: 11 }} axisLine={false} tickLine={false} />
                         <YAxis domain={[30000, 75000]} tick={{ fill: C.light, fontSize: 11 }} tickFormatter={fmtK} axisLine={false} tickLine={false} />
                         <Tooltip content={<Tip />} />
-                        <Bar dataKey="men" name="Men" fill={C.men} radius={[4,4,0,0]} />
-                        <Bar dataKey="women" name="Women" fill={C.women} radius={[4,4,0,0]} />
+                        <Bar dataKey="men" name="Menn" fill={C.men} radius={[4,4,0,0]} />
+                        <Bar dataKey="women" name="Kvinner" fill={C.women} radius={[4,4,0,0]} />
                         {/* Reference line at median */}
                         <CartesianGrid y={MEDIAN} />
                         <Legend wrapperStyle={{ fontSize: 12 }} />
                       </BarChart>
                     </ResponsiveContainer>
-                    <div style={{ textAlign: "center", fontSize: 11, color: C.vlight, marginTop: 4 }}>Dashed line at median (53 970 kr) would show classification boundary</div>
+                    <div style={{ textAlign: "center", fontSize: 11, color: C.vlight, marginTop: 4 }}>Dashed line at the median (53,970 kr) shows the classification boundary</div>
                   </Panel>
 
                   <Panel>
-                    <PanelTitle>Gender Gap (%) by Age — Widens Over Career</PanelTitle>
+                    <PanelTitle>Gender gap (%) by age — widens over the career</PanelTitle>
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={SSB_AGE.map(d => ({ group: d.group, gap: parseFloat(((d.men - d.women) / d.men * 100).toFixed(1)) }))}>
                         <CartesianGrid strokeDasharray="3 3" stroke={C.border} vertical={false} />
@@ -358,22 +358,22 @@
                 </div>
 
                 <Panel>
-                  <PanelTitle>Industry Wage Comparison</PanelTitle>
+                  <PanelTitle>Wage comparison across industries</PanelTitle>
                   <ResponsiveContainer width="100%" height={280}>
                     <BarChart data={SSB_IND} layout="vertical" barCategoryGap="18%" margin={{ left: 10, right: 15 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke={C.border} horizontal={false} />
                       <XAxis type="number" domain={[35000, 90000]} tick={{ fill: C.light, fontSize: 11 }} tickFormatter={fmtK} axisLine={false} tickLine={false} />
                       <YAxis type="category" dataKey="group" tick={{ fill: C.text, fontSize: 12, fontWeight: 500 }} axisLine={false} tickLine={false} width={105} />
                       <Tooltip content={<Tip />} />
-                      <Bar dataKey="men" name="Men" fill={C.men} radius={[0,4,4,0]} barSize={13} />
-                      <Bar dataKey="women" name="Women" fill={C.women} radius={[0,4,4,0]} barSize={13} />
+                      <Bar dataKey="men" name="Menn" fill={C.men} radius={[0,4,4,0]} barSize={13} />
+                      <Bar dataKey="women" name="Kvinner" fill={C.women} radius={[0,4,4,0]} barSize={13} />
                       <Legend wrapperStyle={{ fontSize: 12 }} />
                     </BarChart>
                   </ResponsiveContainer>
                 </Panel>
 
                 <Callout title="Why does this matter for a model?" color={C.pipe1} bg="#E8F4F8">
-                  When a classifier is trained on data where 58.4% of men but only 41.8% of women earn above median, the model learns that male-correlated features are stronger predictors of high income. This isn't the model being malicious — it's faithfully learning patterns that reflect structural inequality. The bias is baked in before training begins.
+                  When a classifier is trained on data where 58.4% of men but only 41.8% of women earn above the median, the model learns that features correlated with men are stronger predictors of high income. This is not because the model is malicious — it learns patterns that reflect structural inequality. The bias is baked in before training even begins.
                 </Callout>
 
                 <div style={{ textAlign: "right", marginTop: 20 }}>
@@ -388,9 +388,9 @@
             {step === 1 && (
               <div style={{ animation: "fadeUp 0.4s ease" }}>
                 <div style={{ marginBottom: 24 }}>
-                  <h2 style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Fraunces', serif" }}>② Model Performance Gaps</h2>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Fraunces', serif" }}>② Model performance disparities</h2>
                   <p style={{ fontSize: 13, color: C.light, marginTop: 6, lineHeight: 1.6, maxWidth: 640 }}>
-                    A gradient-boosted classifier trained to predict above-median income. Overall accuracy looks good — but performance varies sharply across demographic segments.
+                    A gradient-boosted classifier trained to predict above-median income. The overall accuracy looks good — but performance varies significantly across demographic segments.
                   </p>
                 </div>
 
@@ -425,7 +425,7 @@
                   border: "1px solid " + (disparity > 0.15 ? "#FECACA" : disparity > 0.08 ? "#FDE68A" : "#A7F3D0"),
                 }}>
                   <div>
-                    <span style={{ fontSize: 12, color: C.light }}>Max disparity in {met.label}:</span>
+                    <span style={{ fontSize: 12, color: C.light }}>Largest gap in {met.label}:</span>
                     <span style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 800, marginLeft: 12, color: disparity > 0.15 ? C.neg : disparity > 0.08 ? C.warn : C.pos }}>
                       {(disparity * 100).toFixed(1)} pp
                     </span>
@@ -450,12 +450,12 @@
                         </Bar>
                       </BarChart>
                     </ResponsiveContainer>
-                    <div style={{ textAlign: "center", fontSize: 11, color: C.vlight, marginTop: 4 }}>Click bars to inspect</div>
+                    <div style={{ textAlign: "center", fontSize: 11, color: C.vlight, marginTop: 4 }}>Click the bars for details</div>
                   </Panel>
 
                   {/* Radar */}
                   <Panel>
-                    <PanelTitle>Multi-Metric Profile</PanelTitle>
+                    <PanelTitle>Profile across metrics</PanelTitle>
                     <ResponsiveContainer width="100%" height={300}>
                       <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="65%">
                         <PolarGrid stroke={C.border} />
@@ -502,12 +502,12 @@
                 </div>
 
                 <Callout title="The pattern" color={C.pipe2} bg="#E6F7F4">
-                  The model achieves 87.6% AUC for men but only 83.1% for women. Recall is where the gap bites hardest: the model correctly identifies 80.1% of high-earning men but only 68.8% of high-earning women. Women who earn above median are disproportionately <em>missed</em> by the classifier — a 31.2% false negative rate vs 19.9% for men.
+                  The model achieves 87.6% AUC for men but only 83.1% for women. It is in recall that the gap is most noticeable: the model correctly identifies 80.1% of high-earning men but only 68.8% of high-earning women. Women who earn above the median are disproportionately <em>missed</em> by the classifier — 31.2% false negatives versus 19.9% for men.
                 </Callout>
 
                 <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
                   <button onClick={() => setStep(0)} style={{ padding: "10px 24px", background: "white", color: C.light, border: "1px solid " + C.border, borderRadius: 8, fontSize: 13, fontWeight: 500 }}>← Back to data</button>
-                  <button onClick={() => setStep(2)} style={{ padding: "10px 24px", background: C.pipe3, color: "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600 }}>Next: Fairness audit →</button>
+                  <button onClick={() => setStep(2)} style={{ padding: "10px 24px", background: C.pipe3, color: "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600 }}>Next: Fairness analysis →</button>
                 </div>
               </div>
             )}
@@ -516,9 +516,9 @@
             {step === 2 && (
               <div style={{ animation: "fadeUp 0.4s ease" }}>
                 <div style={{ marginBottom: 24 }}>
-                  <h2 style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Fraunces', serif" }}>③ Formal Fairness Criteria</h2>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Fraunces', serif" }}>③ Formal fairness criteria</h2>
                   <p style={{ fontSize: 13, color: C.light, marginTop: 6, lineHeight: 1.6, maxWidth: 640 }}>
-                    Testing the model against four mathematical definitions of fairness. A gap under 8% is considered acceptable; above 15% is a severe violation.
+                    Testing the model against four mathematical definitions of fairness. A gap below 8% is considered acceptable; above 15% is a serious violation.
                   </p>
                 </div>
 
@@ -545,7 +545,7 @@
                             <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "'Fraunces', serif" }}>{crit.name}</div>
                             <div style={{ fontSize: 12, color: C.light, marginTop: 4 }}>{crit.desc}</div>
                           </div>
-                          <Badge type={sev}>{sev === "severe" ? "VIOLATED" : sev === "moderate" ? "MARGINAL" : "SATISFIED"}</Badge>
+                          <Badge type={sev}>{sev === "severe" ? "VIOLATED" : sev === "moderate" ? "BORDERLINE" : "MET"}</Badge>
                         </div>
                         <GapBar value={result.gap} />
                         <div style={{ display: "flex", gap: 14, marginTop: 12, flexWrap: "wrap" }}>
@@ -564,13 +564,13 @@
                 <Panel style={{ background: "#FEF0ED", borderColor: "#FECACA" }}>
                   <div style={{ fontSize: 14, fontWeight: 600, color: C.pipe3, marginBottom: 6, fontFamily: "'Fraunces', serif" }}>The impossibility constraint</div>
                   <p style={{ fontSize: 13, color: C.text, lineHeight: 1.7, fontWeight: 300 }}>
-                    When base rates differ between groups — as they do here (58.4% vs 41.8%) — it is <strong>mathematically impossible</strong> to simultaneously satisfy demographic parity, equal opportunity, and predictive parity. This is a proven result (Choquet / Kleinberg-Mullainathan-Raghavan). Any "fix" for one criterion necessarily worsens another. Fairness in ML is not an optimisation problem with a clean solution — it requires value judgments about which disparities matter most.
+                    When base rates differ between groups — as they do here (58.4% vs. 41.8%) — it is <strong>mathematically impossible</strong> to simultaneously satisfy demographic parity, equal opportunity, and predictive parity. This is a proven result (Kleinberg-Mullainathan-Raghavan, 2016). Any "fix" for one criterion will necessarily worsen another. Fairness in ML is not an optimization problem with a clean solution — it requires value judgments about which disparities matter most.
                   </p>
                 </Panel>
 
                 <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
                   <button onClick={() => setStep(1)} style={{ padding: "10px 24px", background: "white", color: C.light, border: "1px solid " + C.border, borderRadius: 8, fontSize: 13, fontWeight: 500 }}>← Back to model</button>
-                  <button onClick={() => setStep(3)} style={{ padding: "10px 24px", background: C.pipe4, color: C.text, border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600 }}>Next: Real impact →</button>
+                  <button onClick={() => setStep(3)} style={{ padding: "10px 24px", background: C.pipe4, color: C.text, border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600 }}>Next: Real-world impact →</button>
                 </div>
               </div>
             )}
@@ -579,26 +579,26 @@
             {step === 3 && (
               <div style={{ animation: "fadeUp 0.4s ease" }}>
                 <div style={{ marginBottom: 24 }}>
-                  <h2 style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Fraunces', serif" }}>④ Real-World Impact</h2>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Fraunces', serif" }}>④ Real-world consequences</h2>
                   <p style={{ fontSize: 13, color: C.light, marginTop: 6, lineHeight: 1.6, maxWidth: 640 }}>
-                    What do these model disparities mean in practice? If this classifier were deployed for credit scoring, hiring screening, or benefit allocation, here's who gets hurt.
+                    What do these model disparities mean in practice? If this classifier were used for credit scoring, recruitment filtering, or benefits allocation, here is who would be affected.
                   </p>
                 </div>
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
                   <Panel style={{ borderLeft: "4px solid " + C.women }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "'Fraunces', serif", marginBottom: 12 }}>Who the model misses</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "'Fraunces', serif", marginBottom: 12 }}>Who the model overlooks</div>
                     <div style={{ fontSize: 13, color: C.light, lineHeight: 1.8 }}>
                       <div style={{ marginBottom: 12 }}>
-                        With a <strong style={{ color: C.text }}>31.2% false negative rate for women</strong> vs 19.9% for men, the model systematically under-identifies high-earning women. In concrete terms:
+                        With a <strong style={{ color: C.text }}>false negative rate of 31.2% for women</strong> versus 19.9% for men, the model systematically under-identifies high-earning women. In concrete terms:
                       </div>
                       <div style={{ padding: "16px", background: "#FEF7F0", borderRadius: 8, marginBottom: 12 }}>
-                        <div style={{ fontFamily: "'IBM Plex Mono'", fontSize: 20, fontWeight: 500, color: C.women }}>~153 000</div>
-                        <div style={{ fontSize: 12, color: C.light, marginTop: 4 }}>women earning above median would be incorrectly classified as low earners</div>
+                        <div style={{ fontFamily: "'IBM Plex Mono'", fontSize: 20, fontWeight: 500, color: C.women }}>~153,000</div>
+                        <div style={{ fontSize: 12, color: C.light, marginTop: 4 }}>women earning above the median would be incorrectly classified as low-earners</div>
                       </div>
                       <div style={{ padding: "16px", background: "#F0F4F8", borderRadius: 8 }}>
-                        <div style={{ fontFamily: "'IBM Plex Mono'", fontSize: 20, fontWeight: 500, color: C.men }}>~116 000</div>
-                        <div style={{ fontSize: 12, color: C.light, marginTop: 4 }}>men earning above median would be missed — 37K fewer than women despite a larger workforce</div>
+                        <div style={{ fontFamily: "'IBM Plex Mono'", fontSize: 20, fontWeight: 500, color: C.men }}>~116,000</div>
+                        <div style={{ fontSize: 12, color: C.light, marginTop: 4 }}>men earning above the median would be overlooked — 37,000 fewer than women despite a larger workforce</div>
                       </div>
                     </div>
                   </Panel>
@@ -607,10 +607,10 @@
                     <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "'Fraunces', serif", marginBottom: 12 }}>Downstream consequences</div>
                     <div style={{ fontSize: 13, color: C.light, lineHeight: 1.8 }}>
                       {[
-                        { icon: "🏦", title: "Credit & Lending", text: "Women wrongly classified as low-earners get lower credit limits, worse mortgage rates, and rejected loan applications." },
-                        { icon: "💼", title: "Hiring & Promotion", text: "Automated screening tools score women lower, reducing interview callbacks and perpetuating the very wage gap the model learned from." },
-                        { icon: "🏥", title: "Benefits & Welfare", text: "Norway's NAV uses algorithmic triage. Misclassified high-earners may receive unnecessary support — or miss out on services they're entitled to." },
-                        { icon: "📊", title: "Compounding", text: "Each misclassification feeds back into future training data, reinforcing the original disparity in a self-fulfilling loop." },
+                        { icon: "🏦", title: "Credit and lending", text: "Women incorrectly classified as low-earners receive lower credit limits, worse mortgage rates, and more loan rejections." },
+                        { icon: "💼", title: "Hiring and promotion", text: "Automated screening tools score women lower, reducing interview callbacks and perpetuating the wage gap the model learned from." },
+                        { icon: "🏥", title: "Benefits and welfare", text: "NAV uses algorithmic prioritization. Misclassified high-earners may receive unnecessary support — or miss services they are actually entitled to." },
+                        { icon: "📊", title: "Reinforcement", text: "Each misclassification feeds back into future training data, amplifying the original disparity in a self-fulfilling loop." },
                       ].map((d, i) => (
                         <div key={i} style={{ display: "flex", gap: 10, marginBottom: i < 3 ? 12 : 0 }}>
                           <span style={{ fontSize: 18, lineHeight: 1.4 }}>{d.icon}</span>
@@ -625,7 +625,7 @@
 
                 {/* Intersectional worst case */}
                 <Panel style={{ marginBottom: 24 }}>
-                  <PanelTitle>Intersectional Analysis — Who Is Most Affected?</PanelTitle>
+                  <PanelTitle>Intersectional analysis — who is most affected?</PanelTitle>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
                     {SEGMENTS.intersection.groups.map((g, i) => {
                       const isWorst = i === 3;
@@ -639,7 +639,7 @@
                             <span style={{ fontSize: 13, fontWeight: 600 }}>{g.name}</span>
                           </div>
                           <div style={{ display: "grid", gap: 6 }}>
-                            {[["Recall", g.recall], ["FNR", g.fnr], ["AUC", g.auc], ["Base Rate", g.baseRate]].map(([l, v]) => (
+                            {[["Recall", g.recall], ["FNR", g.fnr], ["AUC", g.auc], ["Base rate", g.baseRate]].map(([l, v]) => (
                               <div key={l} style={{ display: "flex", justifyContent: "space-between", fontSize: 12 }}>
                                 <span style={{ color: C.light }}>{l}</span>
                                 <span style={{ fontFamily: "'IBM Plex Mono'", fontWeight: 500, color: l === "FNR" && v > 0.35 ? C.neg : C.text }}>{pct(v)}</span>
@@ -652,19 +652,19 @@
                     })}
                   </div>
                   <div style={{ marginTop: 16, fontSize: 13, color: C.light, lineHeight: 1.7 }}>
-                    <strong style={{ color: C.text }}>Women in healthcare & education</strong> face the worst outcomes: a 40.8% false negative rate and only 59.2% recall. Nearly half of high-earning women in these sectors would be misclassified. This is the intersection of gender bias <em>and</em> industry segregation compounding into a single population.
+                    <strong style={{ color: C.text }}>Women in healthcare and education</strong> get the worst outcomes: 40.8% false negatives and only 59.2% recall. Nearly half of high-earning women in these sectors would be misclassified. This is the interplay of gender bias <em>and</em> industry segregation, compounded in a single population.
                   </div>
                 </Panel>
 
                 {/* The pipeline summary */}
                 <Panel style={{ background: "#F0F4F8" }}>
-                  <div style={{ fontSize: 16, fontWeight: 800, fontFamily: "'Fraunces', serif", marginBottom: 16, textAlign: "center" }}>The Bias Pipeline — Summary</div>
+                  <div style={{ fontSize: 16, fontWeight: 800, fontFamily: "'Fraunces', serif", marginBottom: 16, textAlign: "center" }}>The bias pipeline — summary</div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, textAlign: "center" }}>
                     {[
-                      { num: "①", title: "Data Disparity", stat: "16.6 pp", desc: "base rate gap between men & women", color: C.pipe1 },
-                      { num: "②", title: "Model Gap", stat: "11.3 pp", desc: "recall difference (men vs women)", color: C.pipe2 },
-                      { num: "③", title: "Fairness Violations", stat: "3 of 4", desc: "criteria violated or marginal", color: C.pipe3 },
-                      { num: "④", title: "People Affected", stat: "~153K", desc: "women wrongly classified as low-earners", color: C.pipe4 },
+                      { num: "①", title: "Data skew", stat: "16.6 pp", desc: "base rate gap between men and women", color: C.pipe1 },
+                      { num: "②", title: "Model gap", stat: "11.3 pp", desc: "recall disparity (men vs. women)", color: C.pipe2 },
+                      { num: "③", title: "Fairness violations", stat: "3 of 4", desc: "criteria violated or borderline", color: C.pipe3 },
+                      { num: "④", title: "Affected people", stat: "~153K", desc: "women misclassified as low-earners", color: C.pipe4 },
                     ].map((s, i) => (
                       <div key={i}>
                         <div style={{ width: 36, height: 36, borderRadius: "50%", background: s.color, color: "white", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px", fontSize: 14, fontWeight: 700, fontFamily: "'Fraunces', serif" }}>{s.num}</div>
@@ -677,7 +677,7 @@
                 </Panel>
 
                 <Callout title="What can be done?" color={C.pos} bg="#ECFDF5">
-                  Norway's Equality and Anti-Discrimination Ombud published guidelines for detecting AI discrimination in 2023. Mitigations include: rebalancing training data, applying fairness constraints during model training (accepting accuracy tradeoffs), post-processing calibration by group, and — most importantly — not deploying classifiers in high-stakes settings without auditing per-group performance first. The SSB data is public precisely so these audits can happen.
+                  The Norwegian Equality and Anti-Discrimination Ombud published guidance on uncovering AI discrimination in 2023. Measures include: rebalancing training data, applying fairness constraints during training (with possible accuracy trade-offs), post-hoc per-group calibration, and — most importantly — not deploying classifiers in high-stakes domains without first auditing per-group performance. The SSB data is public precisely so that such audits can be conducted.
                 </Callout>
 
                 <div style={{ textAlign: "left", marginTop: 20 }}>
@@ -692,11 +692,11 @@
           <footer style={{ borderTop: "2px solid " + C.text, padding: "24px 32px" }}>
             <div style={{ maxWidth: 1060, margin: "0 auto", fontSize: 11, color: C.light, fontFamily: "'IBM Plex Mono'", lineHeight: 1.8 }}>
               <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-                <span>Wage data: Statistics Norway (SSB) Tables 11652, 11654, 11656 · Q3 2025 · CC BY 4.0</span>
-                <span>Model metrics: Simulated from SSB distributions · Not a deployed system</span>
+                <span>Wage data: Statistics Norway (SSB) tables 11652, 11654, 11656 · Q3 2025 · CC BY 4.0</span>
+                <span>Model metrics: Simulated from SSB distributions · Not a production system</span>
               </div>
               <div style={{ marginTop: 8, color: C.vlight }}>
-                Model performance metrics are simulated based on the documented SSB wage distributions and Nordic ML fairness literature. They represent realistic outcomes for a gradient-boosted classifier trained on this data, not an actual deployed model.
+                Model metrics are simulated based on documented SSB distributions and Nordic machine learning fairness literature. They represent realistic outcomes for a gradient-boosted classifier trained on this data, not an actually deployed model.
               </div>
             </div>
           </footer>

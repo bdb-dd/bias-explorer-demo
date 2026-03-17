@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bias Explorer Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "IBM Plex Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 15% 10%, rgba(186,45,11,0.10), transparent 60%),
+                  radial-gradient(1000px 700px at 85% 20%, rgba(27,73,101,0.12), transparent 60%),
+                  #F7F5F0;
+      color: #2B2D42;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 3px solid rgba(27,73,101,0.35); outline-offset: 4px; border-radius: 10px; }
+
+    .wrap { max-width: 1050px; margin: 0 auto; padding: 56px 28px 72px; }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-bottom: 28px;
+      border-bottom: 2px solid #2B2D42;
+      margin-bottom: 28px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(43,45,66,0.70);
+    }
+
+    .bars { display: inline-flex; gap: 6px; }
+    .bar { width: 26px; height: 4px; border-radius: 2px; }
+    .bar.red { background: #BA2D0B; }
+    .bar.blue { background: #1B4965; }
+
+    h1 {
+      font-family: "Fraunces", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      font-size: 42px;
+      line-height: 1.08;
+      letter-spacing: -0.8px;
+      max-width: 760px;
+    }
+
+    .sub {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(43,45,66,0.70);
+      max-width: 780px;
+      font-weight: 300;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(232,228,221,1);
+      border-radius: 14px;
+      padding: 22px 22px 20px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.10);
+      border-color: rgba(27,73,101,0.22);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      align-self: flex-start;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(43,45,66,0.72);
+      background: rgba(43,45,66,0.04);
+      border: 1px solid rgba(43,45,66,0.08);
+    }
+
+    .pillDot { width: 9px; height: 9px; border-radius: 3px; }
+
+    .title {
+      font-family: "Fraunces", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+
+    .desc {
+      color: rgba(43,45,66,0.70);
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 300;
+      max-width: 52ch;
+    }
+
+    .cta {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(43,45,66,0.06);
+      border: 1px solid rgba(43,45,66,0.10);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .arrow {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      opacity: 0.75;
+    }
+
+    footer {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(43,45,66,0.10);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      color: rgba(43,45,66,0.55);
+    }
+
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 36px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none; }
+      .card:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="kicker">
+        <span class="bars" aria-hidden="true">
+          <span class="bar red"></span>
+          <span class="bar blue"></span>
+        </span>
+        Bias Explorer Demo
+      </div>
+      <h1>Explore how data bias becomes model bias</h1>
+      <p class="sub">
+        Choose a demo to open an interactive single-file HTML explorer. Each page visualises performance gaps and fairness criteria across demographic segments.
+      </p>
+    </header>
+
+    <main class="grid">
+      <a class="card" href="ssb-wages-by-gender-2025.html">
+        <div class="pill"><span class="pillDot" style="background:#BA2D0B"></span>Norway · SSB · 2025</div>
+        <div class="title">Norwegian Wage Bias Explorer</div>
+        <div class="desc">From real wage distribution disparities (SSB Q3 2025) to model discrimination across gender, age, and industry.</div>
+        <div class="cta"><span>Open explorer</span><span class="arrow">&rarr;</span></div>
+      </a>
+
+      <a class="card" href="us-adult-income-1994.html">
+        <div class="pill"><span class="pillDot" style="background:#1B4965"></span>U.S. Census · 1994</div>
+        <div class="title">Adult Income Dataset Bias Explorer</div>
+        <div class="desc">Examine how a binary income classifier performs differently across gender, race, age groups, and intersections.</div>
+        <div class="cta"><span>Open explorer</span><span class="arrow">&rarr;</span></div>
+      </a>
+    </main>
+
+    <footer>
+      <span>Model metrics are simulated from real data distributions and published ML fairness literature &mdash; no actual model has been trained or deployed. The goal is to illustrate how documented biases in training data can propagate into systematic performance disparities across demographic groups.</span>
+    </footer>
+  </div>
+</body>
+</html>
