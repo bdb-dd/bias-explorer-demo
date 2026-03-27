@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Recognition Case Studies</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4efe8;
+      --paper: rgba(255, 252, 247, 0.96);
+      --ink: #22303c;
+      --muted: rgba(34, 48, 60, 0.72);
+      --line: rgba(34, 48, 60, 0.12);
+      --red: #ba4a2f;
+      --blue: #275d7a;
+      --gold: #9b6b2f;
+      --green: #2c6b57;
+      --shadow: 0 16px 40px rgba(20, 20, 20, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1100px 650px at 10% 0%, rgba(186, 74, 47, 0.14), transparent 58%),
+        radial-gradient(900px 620px at 85% 8%, rgba(39, 93, 122, 0.16), transparent 52%),
+        linear-gradient(180deg, #f8f3ec 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible {
+      outline: 3px solid rgba(39, 93, 122, 0.35);
+      outline-offset: 4px;
+      border-radius: 12px;
+    }
+
+    .shell {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: rgba(34, 48, 60, 0.72);
+    }
+
+    .stripes {
+      display: inline-flex;
+      gap: 6px;
+    }
+
+    .stripe {
+      width: 24px;
+      height: 4px;
+      border-radius: 999px;
+    }
+
+    .hero {
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.8), rgba(255, 248, 241, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .heroGrid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 0;
+    }
+
+    .heroCopy {
+      padding: 40px 36px 34px;
+      border-right: 1px solid rgba(34, 48, 60, 0.08);
+    }
+
+    .hero h1 {
+      font-family: "Fraunces", ui-serif, Georgia, serif;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      line-height: 0.98;
+      letter-spacing: -1.2px;
+      max-width: 10ch;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 62ch;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .heroMeta {
+      padding: 36px 32px;
+      background:
+        linear-gradient(180deg, rgba(39, 93, 122, 0.06), rgba(39, 93, 122, 0.02)),
+        rgba(255, 252, 247, 0.72);
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
+    .metaCard {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(34, 48, 60, 0.09);
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+    }
+
+    .metaLabel {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(34, 48, 60, 0.58);
+      margin-bottom: 8px;
+    }
+
+    .metaCard strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .metaCard span {
+      display: block;
+      margin-top: 6px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .navRow {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .navPill {
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(34, 48, 60, 0.1);
+      box-shadow: 0 8px 24px rgba(20, 20, 20, 0.04);
+      min-width: 210px;
+    }
+
+    .navPill small {
+      display: block;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: rgba(34, 48, 60, 0.58);
+      margin-bottom: 6px;
+    }
+
+    .navPill strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .case {
+      background: var(--paper);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .caseHead {
+      padding: 28px 30px 22px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.3));
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 10px;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 14px;
+    }
+
+    .caseHead h2 {
+      font-family: "Fraunces", ui-serif, Georgia, serif;
+      font-size: clamp(2rem, 3.4vw, 2.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.8px;
+      margin-bottom: 10px;
+      max-width: 18ch;
+    }
+
+    .lede {
+      max-width: 68ch;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    .caseBody {
+      padding: 26px 30px 30px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.55fr;
+      gap: 22px;
+    }
+
+    .sidebar {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.76);
+      padding: 18px 18px 16px;
+    }
+
+    .panel h3 {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(34, 48, 60, 0.6);
+      margin-bottom: 12px;
+    }
+
+    .panel p, .panel li {
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .panel ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .panel strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .content {
+      display: grid;
+      gap: 14px;
+    }
+
+    .block {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 20px 18px;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .block h3 {
+      font-family: "Fraunces", ui-serif, Georgia, serif;
+      font-size: 22px;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .block p {
+      font-size: 14px;
+      line-height: 1.82;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .prompt {
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      background: rgba(34, 48, 60, 0.96);
+      color: rgba(255, 251, 246, 0.92);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .promptLabel {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.54);
+      margin-bottom: 10px;
+    }
+
+    .prompt p {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: rgba(255, 251, 246, 0.88);
+    }
+
+    .mistakes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mistake {
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      border: 1px solid rgba(34, 48, 60, 0.1);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .mistake h4 {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      margin-bottom: 8px;
+    }
+
+    .mistake p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .footerNote {
+      margin-top: 10px;
+      padding: 20px 22px;
+      border-radius: 20px;
+      border: 1px solid rgba(34, 48, 60, 0.1);
+      background: rgba(255, 255, 255, 0.66);
+      color: rgba(34, 48, 60, 0.72);
+      font-size: 13px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .backLink {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 48, 60, 0.12);
+      background: rgba(255, 255, 255, 0.68);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 980px) {
+      .heroGrid, .caseBody { grid-template-columns: 1fr; }
+      .heroCopy { border-right: none; border-bottom: 1px solid rgba(34, 48, 60, 0.08); }
+      .mistakes { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: min(100vw - 20px, 1180px); padding: 20px 0 56px; }
+      .heroCopy, .heroMeta, .caseHead, .caseBody { padding-left: 18px; padding-right: 18px; }
+      .navPill { min-width: 0; width: 100%; }
+      .hero h1 { max-width: 11ch; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="eyebrow">
+        <span class="stripes" aria-hidden="true">
+          <span class="stripe" style="background: var(--red);"></span>
+          <span class="stripe" style="background: var(--blue);"></span>
+        </span>
+        Bias Explorer Demo
+      </div>
+      <a class="backLink" href="index.html">← Back to demo index</a>
+    </div>
+
+    <section class="hero">
+      <div class="heroGrid">
+        <div class="heroCopy">
+          <h1>AI Recognition Case Studies</h1>
+          <p>
+            Three complete hypothetical cases for a new experiment: each one follows a recognisable decision-maker who tries to use AI to identify high achievers, makes plausible mistakes with data and model usage, and ends up rewarding visibility or structural advantage rather than merit. The point is not that the persona is careless. The point is that the workflow feels disciplined right up until the moment it quietly stops being fair.
+          </p>
+        </div>
+        <div class="heroMeta">
+          <div class="metaCard">
+            <div class="metaLabel">Shared Setup</div>
+            <strong>Legitimate goal, messy evidence, polished AI output</strong>
+            <span>Each case keeps the same teaching structure so the failures are comparable across domains.</span>
+          </div>
+          <div class="metaCard">
+            <div class="metaLabel">Teaching Focus</div>
+            <strong>Data bias, proxy metrics, and over-trust in synthesis</strong>
+            <span>These cases work best when readers can see how reasonable intent still produces a distorted decision.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="navRow" aria-label="Case studies">
+      <a class="navPill" href="#engineering">
+        <small>Case 01</small>
+        <strong>Engineering director after a launch</strong>
+      </a>
+      <a class="navPill" href="#school">
+        <small>Case 02</small>
+        <strong>Principal selecting an excellence award</strong>
+      </a>
+      <a class="navPill" href="#sales">
+        <small>Case 03</small>
+        <strong>Sales director choosing President's Club</strong>
+      </a>
+    </nav>
+
+    <article class="case" id="engineering">
+      <div class="caseHead">
+        <div class="kicker" style="background: var(--blue);">Case 01 · Visibility Bias</div>
+        <h2>The Engineering Director Who Wanted to Reward the Real Drivers of a Launch</h2>
+        <p class="lede">
+          Marta is an engineering director at a mid-sized software company. Her team just shipped a difficult platform migration on time, with only minor launch-day issues. She wants to recognize the people who made the biggest difference, but she does not want the decision to turn into a popularity contest or default to whoever speaks most in meetings.
+        </p>
+      </div>
+      <div class="caseBody">
+        <aside class="sidebar">
+          <section class="panel">
+            <h3>Objective</h3>
+            <p>Identify who most deserves recognition for the migration launch.</p>
+          </section>
+          <section class="panel">
+            <h3>Available Data</h3>
+            <ul>
+              <li><strong>GitHub pull requests:</strong> visible code changes, not overall impact.</li>
+              <li><strong>Jira tickets:</strong> closure volume, not strategic difficulty.</li>
+              <li><strong>Slack launch messages:</strong> public activity, not quiet problem prevention.</li>
+              <li><strong>Retrospective notes:</strong> selective memory written after the fact.</li>
+              <li><strong>Peer feedback:</strong> useful context, but unevenly detailed.</li>
+            </ul>
+          </section>
+          <section class="panel">
+            <h3>Hidden Reality</h3>
+            <p>A staff engineer removed a major architectural risk six weeks earlier, and an engineering manager resolved cross-team dependency conflicts. Both contributions were decisive but lightly documented.</p>
+          </section>
+        </aside>
+        <div class="content">
+          <section class="prompt">
+            <div class="promptLabel">Flawed Prompt</div>
+            <p>Review these launch artifacts and identify the three individuals who contributed most materially to the success of the migration. Rank them and explain your reasoning with evidence from the repository, project tracker, launch channel, and retrospective.</p>
+          </section>
+          <section class="block">
+            <h3>What happened</h3>
+            <p>
+              The model returns a polished ranking. It highlights an engineer with an unusually high commit count, another who closed a large number of tickets in the final sprint, and a third who appears constantly in the launch Slack thread answering questions. Marta likes the output because it looks evidence-based rather than intuitive. In practice, the model is ranking what was easiest to count and easiest to quote.
+            </p>
+          </section>
+          <section class="block">
+            <h3>Where the reasoning breaks</h3>
+            <div class="mistakes">
+              <div class="mistake">
+                <h4 style="color: var(--red);">Data Mistake</h4>
+                <p>Visible engineering artifacts are treated as a reasonably complete record of contribution.</p>
+              </div>
+              <div class="mistake">
+                <h4 style="color: var(--blue);">AI-use Mistake</h4>
+                <p>The model is asked to infer true impact from proxies like commit volume, ticket counts, and message visibility.</p>
+              </div>
+              <div class="mistake">
+                <h4 style="color: var(--gold);">Process Mistake</h4>
+                <p>No calibrated review with other leaders happens before recognition is finalized.</p>
+              </div>
+            </div>
+          </section>
+          <section class="block">
+            <h3>Why the outcome is wrong</h3>
+            <p>
+              The ranking rewards people whose work leaves strong traces in systems and public channels. Quiet risk reduction, coordination, mentorship, and conflict resolution start to look secondary even when they were decisive. The harm is not only that the wrong people are recognized. The organization also learns that visible output is what counts.
+            </p>
+          </section>
+          <section class="block">
+            <h3>What a better version would do</h3>
+            <p>
+              Marta could still use AI, but only to summarize evidence by contribution type rather than rank people outright. A stronger process would separate implementation, risk reduction, coordination, and incident response; question whether some crucial work is under-recorded; and require a manager review that explicitly asks whose impact is likely invisible in the available data.
+            </p>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="school">
+      <div class="caseHead">
+        <div class="kicker" style="background: var(--red);">Case 02 · Institutional Record Bias</div>
+        <h2>The Principal Who Tried to Make an Excellence Award More Holistic</h2>
+        <p class="lede">
+          Dr. Alvarez is a high school principal choosing the recipient of the school's annual excellence award. She does not want to reward grades alone. She wants to consider leadership, resilience, service, and character, and believes AI might help her run a more balanced review than a rushed manual comparison.
+        </p>
+      </div>
+      <div class="caseBody">
+        <aside class="sidebar">
+          <section class="panel">
+            <h3>Objective</h3>
+            <p>Choose the student who most deserves the annual excellence award.</p>
+          </section>
+          <section class="panel">
+            <h3>Available Data</h3>
+            <ul>
+              <li><strong>GPA and course rigor:</strong> meaningful, but narrow.</li>
+              <li><strong>Attendance:</strong> may reflect caregiving or paid work.</li>
+              <li><strong>Discipline records:</strong> vulnerable to unequal enforcement.</li>
+              <li><strong>Teacher comments:</strong> variable in tone and detail.</li>
+              <li><strong>Extracurriculars and service:</strong> easier to document for students with more time and resources.</li>
+            </ul>
+          </section>
+          <section class="panel">
+            <h3>Hidden Reality</h3>
+            <p>A finalist with comparable academic strength works part-time, helps care for younger siblings, and has thinner formal documentation of service and leadership.</p>
+          </section>
+        </aside>
+        <div class="content">
+          <section class="prompt">
+            <div class="promptLabel">Flawed Prompt</div>
+            <p>Compare these finalists holistically and recommend the student who best represents overall excellence, including academics, leadership, service, resilience, and character. Explain the recommendation clearly.</p>
+          </section>
+          <section class="block">
+            <h3>What happened</h3>
+            <p>
+              The model recommends a highly visible student with strong grades, glowing comments, multiple leadership roles, no disciplinary history, and well-documented volunteer work. The answer reads as careful and balanced, which reassures Dr. Alvarez. But the review is only as fair as the underlying records, and the records were never neutral to begin with.
+            </p>
+          </section>
+          <section class="block">
+            <h3>Where the reasoning breaks</h3>
+            <div class="mistakes">
+              <div class="mistake">
+                <h4 style="color: var(--red);">Data Mistake</h4>
+                <p>The combined student record is treated as a fair portrait of merit rather than a patchwork of uneven institutional evidence.</p>
+              </div>
+              <div class="mistake">
+                <h4 style="color: var(--blue);">AI-use Mistake</h4>
+                <p>The model is trusted to make the review more holistic, even though it is only polishing biased inputs into a clean narrative.</p>
+              </div>
+              <div class="mistake">
+                <h4 style="color: var(--gold);">Process Mistake</h4>
+                <p>No one pauses to ask which data fields should be excluded, contextualized, or reweighted before the comparison starts.</p>
+              </div>
+            </div>
+          </section>
+          <section class="block">
+            <h3>Why the outcome is wrong</h3>
+            <p>
+              The school ends up rewarding the student whose excellence was easiest to document inside existing systems, not necessarily the student who best embodied the award's intent. AI does not create the bias here. It turns institutional noise into a confident recommendation that feels harder to challenge because it sounds balanced.
+            </p>
+          </section>
+          <section class="block">
+            <h3>What a better version would do</h3>
+            <p>
+              A stronger process would define award criteria first, remove or heavily contextualize discipline and unevenly documented activity data, and use AI only to organize evidence under explicit criteria. Human reviewers should then ask which students are likely disadvantaged by documentation gaps, family responsibilities, or differential treatment in school records.
+            </p>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="sales">
+      <div class="caseHead">
+        <div class="kicker" style="background: var(--green);">Case 03 · Opportunity Structure Bias</div>
+        <h2>The Sales Director Who Wanted to Find the "True" Top Performers</h2>
+        <p class="lede">
+          Jason leads regional sales for a growing B2B company and needs to choose this year's President's Club winners. He wants the outcome to feel meritocratic, not political, and worries that a simple quota spreadsheet will miss nuance. He turns to AI to synthesize the evidence and identify who truly performed best.
+        </p>
+      </div>
+      <div class="caseBody">
+        <aside class="sidebar">
+          <section class="panel">
+            <h3>Objective</h3>
+            <p>Select the reps who most deserve President's Club recognition.</p>
+          </section>
+          <section class="panel">
+            <h3>Available Data</h3>
+            <ul>
+              <li><strong>Quota attainment and revenue:</strong> clean outputs, unequal starting conditions.</li>
+              <li><strong>Pipeline conversion:</strong> affected by territory quality and product-market fit.</li>
+              <li><strong>CRM notes:</strong> narrative detail varies by rep and manager.</li>
+              <li><strong>Account ownership history:</strong> inherited value can be mistaken for created value.</li>
+              <li><strong>Renewal and expansion data:</strong> may reflect prior relationship capital.</li>
+            </ul>
+          </section>
+          <section class="panel">
+            <h3>Hidden Reality</h3>
+            <p>Several top-ranked reps inherited mature books of business, while a lower-ranked rep rebuilt a weak region and created long-term pipeline from a much harder starting point.</p>
+          </section>
+        </aside>
+        <div class="content">
+          <section class="prompt">
+            <div class="promptLabel">Flawed Prompt</div>
+            <p>Based on this data, identify the reps who most deserve President's Club recognition. Focus on true performance, not just one metric, and explain which people had the strongest year overall.</p>
+          </section>
+          <section class="block">
+            <h3>What happened</h3>
+            <p>
+              The model produces a tidy ranking that favors reps with high revenue, strong conversion rates, and positive narrative notes in CRM and manager comments. Jason likes the result because it appears more nuanced than a raw spreadsheet. But the model is still comparing outcomes across very different territory conditions and treating narrative data as if it were objective evidence.
+            </p>
+          </section>
+          <section class="block">
+            <h3>Where the reasoning breaks</h3>
+            <div class="mistakes">
+              <div class="mistake">
+                <h4 style="color: var(--red);">Data Mistake</h4>
+                <p>Performance is compared across structurally unequal territories as if all reps had the same opportunity set.</p>
+              </div>
+              <div class="mistake">
+                <h4 style="color: var(--blue);">AI-use Mistake</h4>
+                <p>The model is asked to infer true merit from a blend of context-free business metrics and inconsistent narrative notes.</p>
+              </div>
+              <div class="mistake">
+                <h4 style="color: var(--gold);">Process Mistake</h4>
+                <p>No normalization happens for territory quality, inherited accounts, quota difficulty, or market conditions before ranking.</p>
+              </div>
+            </div>
+          </section>
+          <section class="block">
+            <h3>Why the outcome is wrong</h3>
+            <p>
+              Recognition goes to people who may have benefited most from favorable conditions, while harder forms of excellence disappear from view. The process mistakes advantaged context for merit. AI does not correct that confusion. It packages it into a more persuasive argument.
+            </p>
+          </section>
+          <section class="block">
+            <h3>What a better version would do</h3>
+            <p>
+              A stronger version would segment reps by comparable territory conditions, distinguish inherited value from created value, and use AI only to summarize evidence within a fairness-aware framework. Jason should ask a narrower question such as which signals support strong performance relative to the rep's starting conditions, rather than asking for a single all-purpose merit ranking.
+            </p>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <div class="footerNote">
+      These case studies are hypothetical. The people and organizations are fictional, but the data problems, prompt patterns, and evaluation mistakes are intentionally recognizable. They are designed to explain how bias can emerge in AI-assisted recognition workflows even when the objective itself sounds fair and the decision-maker is acting in good faith.
+    </div>
+  </div>
+</body>
+</html>
